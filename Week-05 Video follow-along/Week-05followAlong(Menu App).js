@@ -15,7 +15,7 @@ class Player{
 class Team{
     constructor(name){
         this.name = name;
-        //Each time we create a team, we are also going to have an array that hold all the player on that team.
+        //Each time we create a team, we are also going to have an array that holds all the player on that team.
         //When we have a new team, we have a blank array so we do that in a constructor.
         this.players = [];
     }
@@ -26,7 +26,7 @@ class Team{
         //! That's what the "instanceof operator does"
         if (player instanceof Player){
             this.players.push(player);
-        //This will throw an erro that prints a detailed message that will tell someone exactly what they did wrong.  
+        //This will throw an error that prints a detailed message that will tell someone exactly what they did wrong.  
         } else {
             throw new Error(`You can only add an instance Player. Argument is not a player: ${player}`)
         }
@@ -103,6 +103,17 @@ class Menu {
         4) display all teams
         `);//Above is our method to show menu options. It's going to show the menu, allow the user to select something, we get that number back, and based on that number we do one of the following things.
     }
+    //Here we are going to add the "show team" menue options. This will take the team info and print it, return prompt.
+    showTeamMenuOptions(teamInfo) {
+        return prompt(`
+        0) back
+        1) create player
+        2) delete player
+        -------------------
+        ${teamInfo}
+        `);
+    }
+
     //Next we'll implement displayTeams
     displayTeams() {
         //We'll put a blank string here because what we need to do is build a string that has all the information for the teams so we can put it in a message box or prompt.
@@ -156,7 +167,36 @@ class Menu {
             //This selection variable here is different from the one we used before. We are in a submenu. This selection's scope is within "viewTeam".
             let selection = this.showTeamMenuOptions(description);
             //Now we'll add a switch.
-            switch(selection)
+            switch(selection) {
+                case '1':
+                    this.createPlayer();
+                    break;
+                case '2':
+                    this.deletePlayer();
+            }
+        }
+    }
+    deleteTeam(){
+        let index = prompt('Enter the index of the team you wish to delete: ');
+        if(index > -1 && index < this.teams.length) {
+            this.teams.splice(index, 1);
+        }
+    }
+    createPlayer(){
+        let name = prompt('Enter name for new player: ');
+        let position = prompt('Enter position for new player: ');
+        this.selectedTeam.players.push(new Player(name, position));
+    }
+    deletePlayer() {
+        let index = prompt('Enter the index of the player you wish to delete: ');
+        if (index > -1 && index < this.selectedTeam.players.length) {
+            this.selectedTeam.players.splice(index, 1);
         }
     }
 }
+
+//Before we can test our code, we have to create an instance of our menu.
+
+let menu = new menu();
+//Now we use our "start" method which shows everything.
+menu.start();
