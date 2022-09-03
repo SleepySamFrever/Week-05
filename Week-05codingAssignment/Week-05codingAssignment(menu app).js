@@ -4,6 +4,8 @@
 //Album name, artist, genre
 
 //First we need a couple classes
+
+//I'll start with my album class
 class Album {
     constructor(albumName, artistName, genre) {
         this.albumName = albumName;
@@ -14,11 +16,11 @@ class Album {
         return `${this.albumName} from ${this.artistName}(${this.genre})`;
     }
 }
-
+//Below is my Playlist class.
 class Playlist {
     constructor(playlistName) {
         this.playlistName = playlistName
-        this.albumList = [];
+        this.albumList = []; //albumList is an empty array we will push to when we add an album.
     }
     addAlbum(album) {
         if (album instanceof Album){
@@ -31,10 +33,10 @@ class Playlist {
         return `${this.albumList} has ${this.albumList.length} albums.`;
     }
 }
-
+//Below is my Menu class.
 class Menu {
     constructor() {
-        this.playlists = [];
+        this.albumList = [];
         this.selectedPlaylist = null;
     }
     start() {
@@ -51,7 +53,7 @@ class Menu {
                     this.deletePlaylist();
                     break;
                 case '4':
-                    this.displayPlaylists();
+                    this.displayalbumList();
                     break;
                 default:
                     selection = 0;
@@ -78,29 +80,29 @@ class Menu {
          ${playlistInfo}
         `);
     }
-    displayPlaylists() {
-        let playlistString = '';
-        for (let i = 0; i < this.playlists.length; i++) {
-            playlistString += i + ') ' + this.playlists[i].name + '\n';
+    displayalbumList() {
+        let albumListtring = '';
+        for (let i = 0; i < this.albumList.length; i++) {
+            albumListtring += i + ') ' + this.albumList[i].name + '\n';
         }
-        alert(playlistString);
+        alert(albumListtring);
     }
     createPlaylist() {
         let playlistName = prompt('What would you like to name your created playlist?');
-        this.playlists.push(new Playlist(playlistName));
+        this.albumList.push (new Playlist(playlistName));
     }
     viewPlaylist() {
         let index = prompt(`Enter the index of the playlist you wish to view:`);
-        if (index > -1 && index < this.playlists.length) {
-            this.selectedPlaylist = this.playlists[index];
+        if (index > -1 && index < this.albumList.length) {
+            this.selectedPlaylist = this.albumList[index];
             let description = 'Playlist Name: ' + this.selectedPlaylist.name + '\n';
-            for (let i = 0; i < this.selectedPlaylist.playlists.length; i++) {
-                description += i + ') ' + this.selectedPlaylist.albums[i].albumName + ' - ' + this.selectedPlaylist.albums[i].artistName + ' - ' + this.selectedPlaylist.albums[i].genre + '\n';
+            for (let i = 0; i < this.selectedPlaylist.albumList.length; i++) {
+                description += i + ') ' + this.selectedPlaylist.albumList[i].albumName + ' - ' + this.selectedPlaylist.albumList[i].artistName + ' - ' + this.selectedPlaylist.albumList[i].genre + '\n';
             }
             let selection = this.showPlaylistMenuOptions(description)
             switch (selection) {
                 case '1':
-                    this.creatAlbum();
+                    this.createAlbum();
                     break;
                 case '2':
                     this.deleteAlbum();
@@ -109,21 +111,21 @@ class Menu {
     }
     deletePlaylist() {
         let index = prompt('Enter the index of the playlist you wish to delete:');
-        if (index > -1 && index < this.playlists.length) {
-            this.playlists.splice(index, 1);
+        if (index > -1 && index < this.albumList.length) {
+            this.albumList.splice(index, 1);
         }
     }
-    addAlbum() {
+    createAlbum() {
         let albumName = prompt('Enter name for new album:');
         let artistName = prompt('Enter the artists name:');
         let genre = prompt('What genre is this artist/album?');
-        this.selectedPlaylist.albums.push(new Album(albumName, artistName, genre));
+        this.selectedPlaylist.albumList.push(new Album(albumName, artistName, genre));
 
     }
     deleteAlbum() {
         let index = prompt('Enter the index of the album you wish to delete:');
-        if (index > -1 && index < this.selectedPlaylist.albums.length) {
-            this.selectedPlaylist.albums.splice(index, 1);
+        if (index > -1 && index < this.selectedPlaylist.albumList.length) {
+            this.selectedPlaylist.albumList.splice(index, 1);
         }
     }
 }
